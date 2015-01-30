@@ -6,13 +6,12 @@ $( document ).ready(function() {
         },
         canvas: undefined,
         context: undefined,
+        shapes: [],
         tool: "pen",
         getNextTool: $("input:radio[name=tool]").click(function() {
             this.tool = $(this).val();
         }),
-        makeLayer: $("#myCanvas").click(function() {
-            $( '<canvas class="layer" id="layer' + 1 + '" width="500" height="700"></canvas>' ).insertAfter( this );
-        })
+        
     });
     
     var Layer = Base.extend({
@@ -31,7 +30,18 @@ $( document ).ready(function() {
         x: 0,
         y: 0,
         w: 0,
-        h: 0
+        h: 0,
+        draw: function() {
+            // Draws 
+        },
+        isAtPoint: function(x,y) {
+            // Returns true/false
+        }
+    });
+    
+    // Pen tool class
+    var Pen = Shape.extend({
+        // TODO: implement
     });
     
     // Rectangle tool class
