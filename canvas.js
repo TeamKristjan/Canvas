@@ -8,12 +8,15 @@ $( document ).ready(function() {
         context: undefined,
         shapes: [],
         tool: "pen",
+        isDrawing: false,
         drawAll: function() {
             for (var i = 0; i < shapes.length; ++i) {
                 shapes[i].draw();
             }
         }
     });
+    // Initializes the canvas
+    var can = new Canvas();
     
     // Parent class for shape tools
     var Shape = Base.extend({
@@ -56,35 +59,39 @@ $( document ).ready(function() {
        //TODO: implement 
     });
     
+    ///////
+    // Event handlers
+    ///////
+    
     // Updates to selected tool
     $("input:radio[name=tool]").click(function() {
-                Canvas.tool = $(this).val();
+                can.tool = $(this).val();
     });
-    
-    var isDrawing = false;
     
     $("#myCanvas").mousedown(function(e) {
         // TODO: implement
-        isDrawing = true;
+        can.isDrawing = true;
         console.log("Click");
+        console.log(can.tool);
+        console.log(e.offsetX);
+        console.log(e.offsetY);
+        can.context.beginPath();
+        can.context.moveTo(e.offsetX,e.offsetY);
     });
     
     $("#myCanvas").mousemove(function(e) {
         // TODO: implement
-        if (isDrawing) {
+        if (can.isDrawing) {
             console.log("Moving");
+            can.context.lineTo(e.offsetX,e.offsetY)
+            can.context.stroke();
         };
     });
     
     $("#myCanvas").mouseup(function(e) {
-        isDrawing = false;
+        can.isDrawing = false;
         console.log("Unclick");
+        console.log(e.offsetX);
+        console.log(e.offsetY);
     });
-    
-    
-    
-    var can = new Canvas();
-    var sh = new Rect(2,3,1,5);
-    console.log(can.tool);
-    console.log(sh.x);
 });
