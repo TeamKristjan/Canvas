@@ -15,6 +15,13 @@ $( document ).ready(function() {
             }
         }
     });
+    
+    var TempCanvas = Base.extend({
+        constructor: function() {
+            
+        }
+    });
+    
     // Initializes the canvas
     var can = new Canvas();
     
@@ -41,7 +48,21 @@ $( document ).ready(function() {
     
     // Pen tool class
     var Pen = Shape.extend({
-        // TODO: implement
+        constructor: function(x,y) {
+            this.x.push(x);
+            this.y.push(y);
+        },
+        x: [],
+        y: [],
+        draw: function() {
+            can.context.beginPath();
+            can.context.moveTo(this.x[i],this.y[i]);
+            for (var i = 0; i < this.x.length && i < this.y.length; ++i) {
+                
+                can.context.lineTo(this.x[i],this.y[i]);
+            }
+            can.context.stroke();
+        }
     });
     
     // Rectangle tool class
@@ -68,30 +89,23 @@ $( document ).ready(function() {
                 can.tool = $(this).val();
     });
     
+    var p;
     $("#myCanvas").mousedown(function(e) {
         // TODO: implement
         can.isDrawing = true;
-        console.log("Click");
-        console.log(can.tool);
-        console.log(e.offsetX);
-        console.log(e.offsetY);
-        can.context.beginPath();
-        can.context.moveTo(e.offsetX,e.offsetY);
+        p = Pen(e.offsetX,e.offsetY);
     });
     
     $("#myCanvas").mousemove(function(e) {
         // TODO: implement
         if (can.isDrawing) {
-            console.log("Moving");
-            can.context.lineTo(e.offsetX,e.offsetY)
-            can.context.stroke();
+            p.x.push(e.offsetX);
+            p.y.push(e.offsetY);
         };
     });
     
     $("#myCanvas").mouseup(function(e) {
         can.isDrawing = false;
-        console.log("Unclick");
-        console.log(e.offsetX);
-        console.log(e.offsetY);
+        p.draw();
     });
 });
