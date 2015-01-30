@@ -7,13 +7,12 @@ $( document ).ready(function() {
         canvas: undefined,
         context: undefined,
         shapes: [],
-        tool: "pen"
-        
-    });
-    
-    // Updates to selected tool
-    $("input:radio[name=tool]").click(function() {
-                Canvas.tool = $(this).val();
+        tool: "pen",
+        drawAll: function() {
+            for (var i = 0; i < shapes.length; ++i) {
+                shapes[i].draw();
+            }
+        }
     });
     
     // Parent class for shape tools
@@ -55,6 +54,31 @@ $( document ).ready(function() {
     // Circle tool class
     var Circle = Shape.extend({
        //TODO: implement 
+    });
+    
+    // Updates to selected tool
+    $("input:radio[name=tool]").click(function() {
+                Canvas.tool = $(this).val();
+    });
+    
+    var isDrawing = false;
+    
+    $("#myCanvas").mousedown(function(e) {
+        // TODO: implement
+        isDrawing = true;
+        console.log("Click");
+    });
+    
+    $("#myCanvas").mousemove(function(e) {
+        // TODO: implement
+        if (isDrawing) {
+            console.log("Moving");
+        };
+    });
+    
+    $("#myCanvas").mouseup(function(e) {
+        isDrawing = false;
+        console.log("Unclick");
     });
     
     
