@@ -7,15 +7,13 @@ $( document ).ready(function() {
         canvas: undefined,
         context: undefined,
         shapes: [],
-        tool: "pen",
-        getNextTool: $("input:radio[name=tool]").click(function() {
-            this.tool = $(this).val();
-        }),
+        tool: "pen"
         
     });
     
-    var Layer = Base.extend({
-        
+    // Updates to selected tool
+    $("input:radio[name=tool]").click(function() {
+                Canvas.tool = $(this).val();
     });
     
     // Parent class for shape tools

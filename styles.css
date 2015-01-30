@@ -1,3 +1,2 @@
-#container { position: relative; }
+#container { position: absolute; }
 #myCanvas { border: 1px solid #000; }
-.layer { position: absolute; top: 1px; left: 1px; }
