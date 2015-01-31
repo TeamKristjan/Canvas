@@ -98,8 +98,13 @@ $( document ).ready(function() {
        //TODO: implement 
     });
 
-    var Text = Shape.extend({
-        //TODO: implement
+
+    // var message = "your text";
+
+    var TextBox = Shape.extend({
+        // can.font = "50px serif";
+        // can.fillStyle = "#FF0000";
+        // can.fillText ("Hello World", 100, 80);
     });
     
     // Gets mouse coordinates on canvas
