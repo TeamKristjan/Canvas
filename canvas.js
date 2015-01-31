@@ -3,10 +3,21 @@ $( document ).ready(function() {
         constructor: function() {
             this.canvas = document.getElementById('myCanvas');
             this.context = this.canvas.getContext('2d');
-            this.tool = "pen";
         },
         canvas: undefined,
         context: undefined,
+        drawAll: function(layer) {
+            this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            this.context.drawImage(layer, 0, 0);
+        }
+    });
+    
+    var Layer = Canvas.extend({
+        constructor: function() {
+            this.canvas = document.getElementById('tempCanvas');
+            this.context = this.canvas.getContext('2d');
+            this.tool = "pen";
+        },
         tool: undefined,
         shapes: [],
         isDrawing: false,
@@ -14,6 +25,7 @@ $( document ).ready(function() {
             //for (var i = 0; i < this.shapes.length; ++i) {
             //    this.shapes[i].draw();
             //}
+            this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
             this.shapes[1].draw();
         },
         create: function(x,y) {
@@ -35,13 +47,11 @@ $( document ).ready(function() {
             }
         },
         stopDraw: function(x,y) {
-            this.drawAll();
+            lay.drawAll(this.canvas);
+            this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
             this.isDrawing = false;
         }
     });
-    
-    // Initializes the canvas
-    var can = new Canvas();
     
     // Parent class for shape tools
     var Shape = Base.extend({
@@ -69,13 +79,13 @@ $( document ).ready(function() {
         x: [],
         y: [],
         draw: function() {
-            can.context.beginPath();
-            can.context.moveTo(this.x[0],this.y[0]);
+            lay.context.beginPath();
+            lay.context.moveTo(this.x[0],this.y[0]);
             for (var i = 0; i < this.x.length && i < this.y.length; ++i) {
                 
-                can.context.lineTo(this.x[i],this.y[i]);
+                lay.context.lineTo(this.x[i],this.y[i]);
             }
-            can.context.stroke();
+            lay.context.stroke();
         },
         update: function(x,y) {
             this.x.push(x);
@@ -111,31 +121,37 @@ $( document ).ready(function() {
         return coord;
     };
     
+    
+    // Initializes the canvas
+    var can = new Canvas();
+    var lay = new Layer();
+    
     ///////
     // Event handlers
     ///////
     
     // Updates to selected tool
     $("input:radio[name=tool]").click(function() {
-        can.tool = $(this).val();
+        lay.tool = $(this).val();
     });
     
     // Draws the current shape
     $("#myCanvas").mousedown(function(e) {
         // TODO: implement
         var coord = getCoordinates(e);
-        can.create(coord.x,coord.y);
+        lay.create(coord.x,coord.y);
     });
     
     $("#myCanvas").mousemove(function(e) {
         // TODO: implement
         var coord = getCoordinates(e);
-        can.update(coord.x,coord.y);
+        lay.update(coord.x,coord.y);
     });
     
     $("#myCanvas").mouseup(function(e) {
         // TODO: implement
         var coord = getCoordinates(e);
-        can.stopDraw(coord.x,coord.y);
+        lay.stopDraw(coord.x,coord.y);
     });
+
 });
