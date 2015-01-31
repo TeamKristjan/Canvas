@@ -97,6 +97,10 @@ $( document ).ready(function() {
     var Circle = Shape.extend({
        //TODO: implement 
     });
+
+    var Text = Shape.extend({
+        //TODO: implement
+    });
     
     // Gets mouse coordinates on canvas
     function getCoordinates(e) {
