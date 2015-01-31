@@ -3,22 +3,40 @@ $( document ).ready(function() {
         constructor: function() {
             this.canvas = document.getElementById('myCanvas');
             this.context = this.canvas.getContext('2d');
+            this.tool = "pen";
         },
         canvas: undefined,
         context: undefined,
+        tool: undefined,
         shapes: [],
-        tool: "pen",
         isDrawing: false,
         drawAll: function() {
-            for (var i = 0; i < shapes.length; ++i) {
-                shapes[i].draw();
+            //for (var i = 0; i < this.shapes.length; ++i) {
+            //    this.shapes[i].draw();
+            //}
+            this.shapes[1].draw();
+        },
+        create: function(x,y) {
+            this.isDrawing = true;
+            if (this.tool === "pen") {
+                var pen = new Pen(x,y);
+                this.shapes.push(pen);
             }
-        }
-    });
-    
-    var TempCanvas = Base.extend({
-        constructor: function() {
-            
+            this.drawAll();
+            console.log(this.shapes);
+        },
+        update: function(x,y) {
+            if (this.isDrawing) {
+                if (this.tool === "pen") {
+                    var i = this.shapes.length - 1;
+                    this.shapes[i].update(x,y);
+                }
+                this.drawAll();
+            }
+        },
+        stopDraw: function(x,y) {
+            this.drawAll();
+            this.isDrawing = false;
         }
     });
     
@@ -28,16 +46,12 @@ $( document ).ready(function() {
     // Parent class for shape tools
     var Shape = Base.extend({
         //TODO: implement
-        constructor: function(x,y,w,h) {
+        constructor: function(x,y) {
             this.x = x;
             this.y = y;
-            this.w = w;
-            this.h = h;
         },
         x: 0,
         y: 0,
-        w: 0,
-        h: 0,
         draw: function() {
             // Draws 
         },
@@ -56,12 +70,16 @@ $( document ).ready(function() {
         y: [],
         draw: function() {
             can.context.beginPath();
-            can.context.moveTo(this.x[i],this.y[i]);
+            can.context.moveTo(this.x[0],this.y[0]);
             for (var i = 0; i < this.x.length && i < this.y.length; ++i) {
                 
                 can.context.lineTo(this.x[i],this.y[i]);
             }
             can.context.stroke();
+        },
+        update: function(x,y) {
+            this.x.push(x);
+            this.y.push(y);
         }
     });
     
@@ -80,32 +98,44 @@ $( document ).ready(function() {
        //TODO: implement 
     });
     
+    // Gets mouse coordinates on canvas
+    function getCoordinates(e) {
+        var coord = {x: 0, y: 0};
+        if (e.layerX || e.layerX == 0) { // Firefox
+          coord.x = e.layerX;
+          coord.y = e.layerY;
+        } else if (e.offsetX || e.offsetX == 0) { // Chrome/Opera/IE/Safari
+          coord.x = e.offsetX;
+          coord.y = e.offsetY;
+        }
+        return coord;
+    };
+    
     ///////
     // Event handlers
     ///////
     
     // Updates to selected tool
     $("input:radio[name=tool]").click(function() {
-                can.tool = $(this).val();
+        can.tool = $(this).val();
     });
     
-    var p;
+    // Draws the current shape
     $("#myCanvas").mousedown(function(e) {
         // TODO: implement
-        can.isDrawing = true;
-        p = Pen(e.offsetX,e.offsetY);
+        var coord = getCoordinates(e);
+        can.create(coord.x,coord.y);
     });
     
     $("#myCanvas").mousemove(function(e) {
         // TODO: implement
-        if (can.isDrawing) {
-            p.x.push(e.offsetX);
-            p.y.push(e.offsetY);
-        };
+        var coord = getCoordinates(e);
+        can.update(coord.x,coord.y);
     });
     
     $("#myCanvas").mouseup(function(e) {
-        can.isDrawing = false;
-        p.draw();
+        // TODO: implement
+        var coord = getCoordinates(e);
+        can.stopDraw(coord.x,coord.y);
     });
 });
