@@ -107,6 +107,15 @@ $( document ).ready(function() {
     var Circle = Shape.extend({
        //TODO: implement 
     });
+
+
+    // var message = "your text";
+
+    var TextBox = Shape.extend({
+
+        // can.fillStyle = "#FF0000";
+        // can.fillText ("Hello World", 100, 80);
+    });
     
     // Gets mouse coordinates on canvas
     function getCoordinates(e) {
