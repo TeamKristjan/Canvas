@@ -47,8 +47,11 @@
         <lable for ="text">Text</lable>
         <input type="radio" name="tool" value="erase" id="erase" class="tool" />
         <lable for ="erase">Erase</lable>
+        <input type="radio" name="tool" value="move" id="move" class="tool" />
+        <lable for ="move">Move</lable>
     </form>
     <input type="button" name="undo" value="Undo" id="undo" />
+    <input type="button" name="redo" value="Redo" id="redo" />
     <div id="container">
         <canvas id="Canvas" width="700" height="500">
             <p>No canvas support</p>
@@ -57,5 +60,7 @@
 
     <script src="lib/jquery-2.1.3.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="canvas.js" type="text/javascript" charset="utf-8"></script>
+    <script src="tools.js" type="text/javascript" charset="utf-8"></script>
+    <script src="events.js" type="text/javascript" charset="utf-8"></script>
 </body>
 </html>
