@@ -7,6 +7,7 @@ function Canvas() {
     this.lineWidth = 1;
     this.lineColor = 'black';
     this.isDrawing = false;
+    this.fontType = "40px arial";
     this.message = "";
     this.draw = function() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -25,7 +26,7 @@ function Canvas() {
         } else if (this.tool === "line") {
             item = new Line(x,y,this.lineWidth,this.lineColor);
         } else if (this.tool === "text") {
-            item = new Text(x,y,this.lineWidth,this.lineColor, this.message);
+            item = new Text(x,y,this.lineWidth,this.lineColor,this.message,this.fontType);
         } else if (this.tool === "erase") {
             item = new Erase(x,y);
         } else {
@@ -146,15 +147,12 @@ function textBoxChanged(e) {
 };
 
 //Text tool
-function Text(x,y,width,color,message){
+function Text(x,y,width,color,message,fontType){
     Shape.apply(this,arguments);
     this.message = message;
-    // this.update = function(x,y){
-    //     this.w = x;
-    //     this.h = y;
-    // };
+    this.fontType = fontType;
     this.draw = function(canvas){
-        can.context.font = "40px Arial";
+        can.context.font = this.fontType;
         can.context.fillStyle = this.lineColor;
         can.context.fillText(message, this.x, this.y);
     }
@@ -198,6 +196,11 @@ $(".color").click(function(){
 $(".size ").click(function(){
     can.lineWidth = $(this).val();
 });
+//Getting the font
+$(".font ").click( function(){
+     can.fontType = $(this).attr('id');
+     console.log(can.fontType);
+});
 
 // Event handler for mouse click on canvas. 
 $('#Canvas').mousedown(function(e) {
@@ -219,6 +222,8 @@ $('#Canvas').mousemove(function(e) {
 $('#Canvas').mouseup(function(e) {
     can.isDrawing = false;
 });
+
+
 
 
 //Event for textbox 
