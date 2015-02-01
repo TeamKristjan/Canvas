@@ -3,6 +3,9 @@ function Canvas() {
     this.canvas = $('#Canvas')[0];
     this.context = this.canvas.getContext('2d');
     this.shapes = [];
+    this.tool = "pen";
+    this.lineWidth = 1;
+    this.lineColor = 'black';
     this.isDrawing = false;
     this.draw = function() {
         for (var i = 0; i < this.shapes.length; ++i) {
@@ -10,8 +13,19 @@ function Canvas() {
         }
     };
     this.addLayer = function(x,y) {
-        var pen = new Rect(x,y);
-        this.shapes.push(pen);
+        var item;
+        if (this.tool === "pen") {
+            item = new Pen(x,y,this.lineWidth,this.lineColor);
+        } else if (this.tool === "rect") {
+            item = new Rect(x,y,this.lineWidth,this.lineColor);
+        } else if (this.tool === "circle") {
+            //item = new Circle(x,y,this.lineWidth,this.lineColor);
+        } else if (this.tool === "line") {
+            //item = new Line(x,y,this.lineWidth,this.lineColor);
+        } else if (this.tool === "text") {
+            //item = new Text(x,y,this.lineWidth,this.lineColor);
+        }
+        this.shapes.push(item); 
     };
     this.updateLayer = function(x,y) {
         var shape = this.shapes.length - 1;
@@ -22,19 +36,24 @@ function Canvas() {
 var can = new Canvas();
 
 // Parent class for tools.
-function Shape(x,y) {
+function Shape(x,y,width,color) {
     this.x = x;
     this.y = y;
     this.h = 0;
     this.w = 0;
-    this.update = function(x,y) {};
+    this.lineWidth = width;
+    this.lineColor = color;
+    this.update = function(x,y) {
+        this.w = x - this.x;
+        this.h = y - this.y;
+    };
     this.draw = function(canvas) {};
     this.isAtPoint = function(x,y) { return false; };
     this.move = function(x,y) {};
 };
 
 // Pen class.
-function Pen(x,y) {
+function Pen(x,y,width,color) {
     Shape.apply(this,arguments);
     this.xArr = [this.x];
     this.yArr = [this.y];
@@ -48,23 +67,30 @@ function Pen(x,y) {
         for (var i = 1; i < this.xArr.length; ++i) {
             canvas.context.lineTo(this.xArr[i],this.yArr[i]);
         }
+        canvas.context.lineWidth = this.lineWidth;
+        canvas.context.strokeStyle = this.lineColor;
         canvas.context.stroke();
     };
 };
 
 // Rectangle class.
-function Rect(x,y) {
+function Rect(x,y,width,color) {
     Shape.apply(this,arguments);
-    this.update = function(x,y) {
-        this.w = x - this.x;
-        this.h = y - this.y;
-    };
     this.draw = function(canvas) {
         canvas.context.beginPath();
-        canvas.context.rect(this.x,this.y,this.w,this.h)
+        canvas.context.rect(this.x,this.y,this.w,this.h);
+        canvas.context.lineWidth = this.lineWidth;
+        canvas.context.strokeStyle = this.lineColor;
         canvas.context.stroke();
     };
 };
+
+function Circle(x,y,width,color) {
+    Shape.apply(this,arguments);
+    this.draw = function(canvas) {
+        
+    };
+}
 
 // Helper function that gets mouse position on the canvas.
 function getCoordinates(e) {
@@ -98,6 +124,11 @@ function textBoxChanged(e) {
       drawScreen();
    }
 
+// Updates to selected tool
+$("input:radio[name=tool]").click(function() {
+    can.tool = $(this).val();
+});
+
 // Event handler for mouse click on canvas. 
 $('#Canvas').mousedown(function(e) {
     can.isDrawing = true;
@@ -110,11 +141,12 @@ $('#Canvas').mousemove(function(e) {
     if(can.isDrawing) {
         var coords = getCoordinates(e);
         can.updateLayer(coords.x,coords.y);
-        can.context.clearRect(0, 0, can.width, can.height);
+        //can.context.clearRect(0, 0, can.width, can.height);
         can.draw();
     }
 });
 
+// Event handler for mouse up on canvas.
 $('#Canvas').mouseup(function(e) {
     can.context.clearRect(0, 0, this.width, this.height);
     can.draw();
