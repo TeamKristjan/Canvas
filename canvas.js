@@ -7,6 +7,7 @@ function Canvas() {
     this.lineWidth = 1;
     this.lineColor = 'black';
     this.isDrawing = false;
+    this.message = "";
     this.draw = function() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
         for (var i = 0; i < this.shapes.length; ++i) {
@@ -24,7 +25,7 @@ function Canvas() {
         } else if (this.tool === "line") {
             item = new Line(x,y,this.lineWidth,this.lineColor);
         } else if (this.tool === "text") {
-            //item = new Text(x,y,this.lineWidth,this.lineColor);
+            item = new Text(x,y,this.lineWidth,this.lineColor, this.message);
         } else if (this.tool === "erase") {
             item = new Erase(x,y);
         } else {
@@ -137,7 +138,27 @@ function Erase(x,y) {
         canvas.context.fillStyle = 'white';
         canvas.context.fill();
     }
-}
+};
+
+function textBoxChanged(e) {
+      var target = e.target;
+      can.message = target.value;
+};
+
+//Text tool
+function Text(x,y,width,color,message){
+    Shape.apply(this,arguments);
+    this.message = message;
+    // this.update = function(x,y){
+    //     this.w = x;
+    //     this.h = y;
+    // };
+    this.draw = function(canvas){
+        can.context.font = "40px Arial";
+        can.context.fillStyle = this.lineColor;
+        can.context.fillText(message, this.x, this.y);
+    }
+};
 
 // Helper function that gets mouse position on the canvas.
 function getCoordinates(e) {
@@ -157,19 +178,6 @@ function getCoordinates(e) {
     return coord;
 };
 
-var message = "Some text";
-
-function drawScreen() {
-  can.context.font = "40px Arial";
-  can.context.fillStyle = "Black";
-  can.context.fillText(message, 150, 200);
-};
-
-function textBoxChanged(e) {
-      var target = e.target;
-      message = target.value;
-      drawScreen();
-};
 
 // Updates to selected tool
 $("input:radio[name=tool]").click(function() {
@@ -212,6 +220,20 @@ $('#Canvas').mouseup(function(e) {
     can.isDrawing = false;
 });
 
+
 //Event for textbox 
 var formElement = document.getElementById("textBox");
 formElement.addEventListener('keyup', textBoxChanged, false);
+
+//Hide the textbox until Text is clicked
+  $("#text").click(function(){
+        $("#textbox").show();
+  });
+  $("#line,#pen,#circle,#erase,#rect").click(function(){
+        $("#textbox").hide();
+  })
+
+//Hide the textbox by default
+$(document).ready(function(){
+    $("#textbox").hide();
+});
