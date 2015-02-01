@@ -23,7 +23,7 @@ function Canvas() {
         } else if (this.tool === "line") {
             item = new Line(x,y,this.lineWidth,this.lineColor);
         } else if (this.tool === "text") {
-            //item = new Text(x,y,this.lineWidth,this.lineColor);
+            item = new Text(x,y,this.lineWidth,this.lineColor);
         }
         this.shapes.push(item); 
     };
@@ -115,16 +115,16 @@ function textBoxChanged(e) {
       console.log(message);
 };
 //Text tool
-function text(x,y,width,color){
+function Text(x,y,width,color){
     Shape.apply(this,arguments);
-    this.update = function(x,y){
-        this.w = x;
-        this.h = y;
-    };
+    // this.update = function(x,y){
+    //     this.w = x;
+    //     this.h = y;
+    // };
     this.draw = function(canvas){
         can.context.font = "40px Arial";
         can.context.fillStyle = "Black";
-        can.context.fillText(message, 150, 150);
+        can.context.fillText("Hello World!", 150, 150);
     }
 };
 
