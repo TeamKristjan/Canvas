@@ -7,6 +7,7 @@ function Canvas() {
     this.lineWidth = 1;
     this.lineColor = 'black';
     this.isDrawing = false;
+    this.message = "";
     this.draw = function() {
         for (var i = 0; i < this.shapes.length; ++i) {
             this.shapes[i].draw(this);
@@ -23,7 +24,7 @@ function Canvas() {
         } else if (this.tool === "line") {
             item = new Line(x,y,this.lineWidth,this.lineColor);
         } else if (this.tool === "text") {
-            item = new Text(x,y,this.lineWidth,this.lineColor);
+            item = new Text(x,y,this.lineWidth,this.lineColor, this.message);
         }
         this.shapes.push(item); 
     };
@@ -107,24 +108,23 @@ function Line(x,y,width,color) {
         canvas.context.stroke();
     };
 };
-var message = "Some text";
 
 function textBoxChanged(e) {
       var target = e.target;
-      message = target.value;
-      console.log(message);
+      can.message = target.value;
 };
 //Text tool
-function Text(x,y,width,color){
+function Text(x,y,width,color,message){
     Shape.apply(this,arguments);
+    this.message = message;
     // this.update = function(x,y){
     //     this.w = x;
     //     this.h = y;
     // };
     this.draw = function(canvas){
         can.context.font = "40px Arial";
-        can.context.fillStyle = "Black";
-        can.context.fillText("Hello World!", 150, 150);
+        can.context.fillStyle = this.lineColor;
+        can.context.fillText(message, this.x, this.y);
     }
 };
 
@@ -190,3 +190,16 @@ $('#Canvas').mouseup(function(e) {
 //Event for textbox 
 var formElement = document.getElementById("textBox");
 formElement.addEventListener('keyup', textBoxChanged, false);
+
+//Hide the textbox until Text is clicked
+  $("#text").click(function(){
+        $("#textbox").show();
+  });
+  $("#line,#pen,#circle,#erase,#rect").click(function(){
+        $("#textbox").hide();
+  })
+
+//Hide the textbox by default
+$(document).ready(function(){
+    $("#textbox").hide();
+});
