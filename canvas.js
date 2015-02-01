@@ -1,64 +1,70 @@
+// Canvas Object element.
 function Canvas() {
     this.canvas = $('#Canvas')[0];
     this.context = this.canvas.getContext('2d');
     this.shapes = [];
+    this.isDrawing = false;
+    this.draw = function() {
+        for (var i = 0; i < this.shapes.length; ++i) {
+            this.shapes[i].draw(this);
+        }
+    };
+    this.addLayer = function(x,y) {
+        var pen = new Rect(x,y);
+        this.shapes.push(pen);
+    };
+    this.updateLayer = function(x,y) {
+        var shape = this.shapes.length - 1;
+        this.shapes[shape].update(x,y);
+    };
 };
-
+// Initialize the canvas.
 var can = new Canvas();
 
+// Parent class for tools.
 function Shape(x,y) {
-    
-}
+    this.x = x;
+    this.y = y;
+    this.h = 0;
+    this.w = 0;
+    this.update = function(x,y) {};
+    this.draw = function(canvas) {};
+    this.isAtPoint = function(x,y) { return false; };
+    this.move = function(x,y) {};
+};
 
+// Pen class.
 function Pen(x,y) {
-    this.x = [x];
-    this.y = [y];
+    Shape.apply(this,arguments);
+    this.xArr = [this.x];
+    this.yArr = [this.y];
+    this.update = function(x,y) {
+        this.xArr.push(x);
+        this.yArr.push(y);
+    };
+    this.draw = function(canvas) {
+        canvas.context.beginPath();
+        canvas.context.moveTo(this.xArr[0],this.yArr[0]);
+        for (var i = 1; i < this.xArr.length; ++i) {
+            canvas.context.lineTo(this.xArr[i],this.yArr[i]);
+        }
+        canvas.context.stroke();
+    };
 };
 
-Pen.prototype = new Shape();
-
-Pen.prototype.draw = function(canvas) {
-    canvas.context.beginPath();
-    canvas.context.moveTo(this.x[0],this.y[0]);
-    for (var i = 1; i < this.x.length; ++i) {
-        canvas.context.lineTo(this.x[i],this.y[i]);
-    }
-    canvas.context.stroke();
+// Rectangle class.
+function Rect(x,y) {
+    Shape.apply(this,arguments);
+    this.update = function(x,y) {
+        this.w = x - this.x;
+        this.h = y - this.y;
+    };
+    this.draw = function(canvas) {
+        canvas.context.beginPath();
+        canvas.context.rect(this.x,this.y,this.w,this.h)
+        canvas.context.stroke();
+    };
 };
-
-var pen = new Pen(10,15);
-pen.x.push(100);
-pen.y.push(50);
-pen.x.push(400);
-pen.y.push(70);
-pen.draw(can);
-
-var pen2 = new Pen(50,60);
-pen2.x.push(600);
-pen2.y.push(500);
-pen2.x.push(30);
-pen2.y.push(80);
-pen2.draw(can);
-
-console.log(pen.x);
-console.log(pen2.x);
-
-var x1 = 100;
-var y1 = 150;
-var x2 = 450;
-var y2 = 50;
-
-for (var i = 0; i < 10; i++) {
-    can.context.beginPath();
-    can.context.moveTo(x1, y1);
-    can.context.lineTo(x2, y2);
-    can.context.lineTo(300,400);
-    can.context.stroke();
-    x1 = x1 + 10;
-    y1 = y1 + 10;
-    x2 = x2 + 10;
-    y2 = y2 + 10;
-}
 
 // Helper function that gets mouse position on the canvas.
 function getCoordinates(e) {
@@ -94,7 +100,25 @@ function textBoxChanged(e) {
 
 // Event handler for mouse click on canvas. 
 $('#Canvas').mousedown(function(e) {
-    console.log(getCoordinates(e));
+    can.isDrawing = true;
+    var coords = getCoordinates(e);
+    can.addLayer(coords.x,coords.y);
+});
+
+// Event handler for mouse move on canvas.
+$('#Canvas').mousemove(function(e) {
+    if(can.isDrawing) {
+        var coords = getCoordinates(e);
+        can.updateLayer(coords.x,coords.y);
+        can.context.clearRect(0, 0, can.width, can.height);
+        can.draw();
+    }
+});
+
+$('#Canvas').mouseup(function(e) {
+    can.context.clearRect(0, 0, this.width, this.height);
+    can.draw();
+    can.isDrawing = false;
 });
 
 //Event for textbox 
