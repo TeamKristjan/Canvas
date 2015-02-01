@@ -78,7 +78,48 @@ function getCoordinates(e) {
     return coord;
 };
 
+var message = "Some text";
+
+function drawScreen() {
+  can.context.font = "40px Arial";
+  can.context.fillStyle = "#FF0000";
+  can.context.fillText(message, 100, 150);
+}
+
+function textBoxChanged(e) {
+      var target = e.target;
+      message = target.value;
+      drawScreen();
+   }
+
+// Text tool class
+//     var Text = Shape.extend({
+//         constructor: function(x,y) {
+//             this.x.push(x);
+//             this.y.push(y);
+//         },
+//         x: [],
+//         y: [],
+//         draw: function() {
+//             can.context.beginPath();
+//             can.context.moveTo(this.x[0],this.y[0]);
+//             for (var i = 0; i < this.x.length && i < this.y.length; ++i) {
+                
+//                 can.context.lineTo(this.x[i],this.y[i]);
+//             }
+//             can.context.stroke();
+//         },
+//         update: function(x,y) {
+//             this.x.push(x);
+//             this.y.push(y);
+//         }
+//     });
+
 // Event handler for mouse click on canvas. 
 $('#Canvas').mousedown(function(e) {
     console.log(getCoordinates(e));
 });
+
+//Event for textbox 
+var formElement = document.getElementById("textBox");
+formElement.addEventListener('keyup', textBoxChanged, false);
