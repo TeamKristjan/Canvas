@@ -107,6 +107,26 @@ function Line(x,y,width,color) {
         canvas.context.stroke();
     };
 };
+var message = "Some text";
+
+function textBoxChanged(e) {
+      var target = e.target;
+      message = target.value;
+      console.log(message);
+};
+//Text tool
+function text(x,y,width,color){
+    Shape.apply(this,arguments);
+    this.update = function(x,y){
+        this.w = x;
+        this.h = y;
+    };
+    this.draw = function(canvas){
+        can.context.font = "40px Arial";
+        can.context.fillStyle = "Black";
+        can.context.fillText(message, 150, 150);
+    }
+};
 
 // Helper function that gets mouse position on the canvas.
 function getCoordinates(e) {
@@ -126,19 +146,6 @@ function getCoordinates(e) {
     return coord;
 };
 
-var message = "Some text";
-
-function drawScreen() {
-  can.context.font = "40px Arial";
-  can.context.fillStyle = "Black";
-  can.context.fillText(message, 150, 200);
-};
-
-function textBoxChanged(e) {
-      var target = e.target;
-      message = target.value;
-      drawScreen();
-};
 
 // Updates to selected tool
 $("input:radio[name=tool]").click(function() {
@@ -178,6 +185,7 @@ $('#Canvas').mouseup(function(e) {
     can.draw();
     can.isDrawing = false;
 });
+
 
 //Event for textbox 
 var formElement = document.getElementById("textBox");
