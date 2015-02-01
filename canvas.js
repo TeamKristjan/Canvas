@@ -52,7 +52,7 @@ function Shape(x,y,width,color) {
     this.move = function(x,y) {};
 };
 
-// Pen class.
+// Pen
 function Pen(x,y,width,color) {
     Shape.apply(this,arguments);
     this.xArr = [this.x];
@@ -90,7 +90,7 @@ function Circle(x,y,width,color) {
     this.draw = function(canvas) {
         
     };
-}
+};
 
 // Helper function that gets mouse position on the canvas.
 function getCoordinates(e) {
@@ -114,15 +114,15 @@ var message = "Some text";
 
 function drawScreen() {
   can.context.font = "40px Arial";
-  can.context.fillStyle = "#FF0000";
-  can.context.fillText(message, 100, 150);
-}
+  can.context.fillStyle = "Black";
+  can.context.fillText(message, 150, 200);
+};
 
 function textBoxChanged(e) {
       var target = e.target;
       message = target.value;
       drawScreen();
-   }
+};
 
 // Updates to selected tool
 $("input:radio[name=tool]").click(function() {
@@ -134,6 +134,16 @@ $('#Canvas').mousedown(function(e) {
     can.isDrawing = true;
     var coords = getCoordinates(e);
     can.addLayer(coords.x,coords.y);
+});
+
+//Getting the color of the lines that the user wants
+$(".color").click(function(){
+    can.lineColor = $(this).val();
+});
+
+//Getting the size of the line the user wants
+$(".size ").click(function(){
+    can.lineWidth = $(this).val();
 });
 
 // Event handler for mouse move on canvas.
