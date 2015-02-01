@@ -21,7 +21,7 @@ function Canvas() {
         } else if (this.tool === "circle") {
             //item = new Circle(x,y,this.lineWidth,this.lineColor);
         } else if (this.tool === "line") {
-            //item = new Line(x,y,this.lineWidth,this.lineColor);
+            item = new Line(x,y,this.lineWidth,this.lineColor);
         } else if (this.tool === "text") {
             //item = new Text(x,y,this.lineWidth,this.lineColor);
         }
@@ -88,7 +88,23 @@ function Rect(x,y,width,color) {
 function Circle(x,y,width,color) {
     Shape.apply(this,arguments);
     this.draw = function(canvas) {
-        
+        // TODO
+    };
+};
+
+function Line(x,y,width,color) {
+    Shape.apply(this,arguments);
+    this.update = function(x,y) {
+        this.w = x;
+        this.h = y;
+    };
+    this.draw = function(canvas) {
+        canvas.context.beginPath();
+        canvas.context.moveTo(this.x,this.y);
+        canvas.context.lineTo(this.w,this.h);
+        canvas.context.lineWidth = this.lineWidth;
+        canvas.context.strokeStyle = this.lineColor;
+        canvas.context.stroke();
     };
 };
 
