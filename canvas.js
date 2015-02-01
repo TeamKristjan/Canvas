@@ -154,7 +154,7 @@ $('#Canvas').mousedown(function(e) {
 
 //Getting the color of the lines that the user wants
 $(".color").click(function(){
-    can.lineColor = $(this).val();
+    can.lineColor = $(this).attr('id');
 });
 
 //Getting the size of the line the user wants
