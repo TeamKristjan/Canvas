@@ -16,7 +16,9 @@ function Canvas() {
     
     this.isDrawing = false;
     
-    this.fontType = "40px arial";
+    this.fontType = "Arial";
+    
+    this.fontSize = 10;
 
     this.message = "";
     
@@ -38,7 +40,7 @@ function Canvas() {
         } else if (this.tool === "line") {
             item = new Line(x,y,this.lineWidth,this.lineColor);
         } else if (this.tool === "text") {
-            item = new Text(x,y,this.lineWidth,this.lineColor,this.message,this.fontType);
+            item = new Text(x,y,this.lineWidth,this.lineColor,this.message,this.fontType,this.fontSize);
         } else if (this.tool === "erase") {
             item = new Erase(x,y,0,0);
         } else if (this.tool === "move") {

@@ -60,9 +60,12 @@ $(".size ").click(function(){
 });
 
 //Getting the font
-$(".font ").click( function(){
-     can.fontType = $(this).attr('id');
-     console.log(can.fontType);
+$("#font ").change( function(){
+     can.fontType = $(this).val();
+});
+
+$('#fontsize').change( function() {
+    can.fontSize = $(this).val();
 });
 
 // Event handler for mouse click on canvas. 
@@ -83,5 +86,6 @@ $('#Canvas').mousemove(function(e) {
 
 // Event handler for mouse up on canvas.
 $('#Canvas').mouseup(function(e) {
+    can.draw();
     can.isDrawing = false;
 });

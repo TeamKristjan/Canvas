@@ -110,17 +110,13 @@ function Erase(x,y) {
     }
 };
 
-//Text tool
-function Text(x,y,width,color,message){
+// Text tool
+function Text(x,y,width,color,message,font,fontsize){
     Shape.apply(this,arguments);
     this.message = message;
-    // this.update = function(x,y){
-    //     this.w = x;
-    //     this.h = y;
-    // };
     this.draw = function(canvas){
-        can.context.font = "40px Arial";
+        can.context.font = fontsize + "px " + font;
         can.context.fillStyle = this.lineColor;
         can.context.fillText(message, this.x, this.y);
-    }
+    };
 };
