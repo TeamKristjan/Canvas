@@ -3,9 +3,7 @@
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <title>Canvas</title>
-    
     <link rel="stylesheet" type="text/css" href="styles.css">
-    
     </style>
 </head>
 <body>
@@ -13,6 +11,26 @@
       Text: <input id="textBox" placeholder="Awesome textbox"/>
       <br>
     </form>
+    <form id="colorpicker" action="">
+        <input type="button" name="color" value="Black" id="black" class="color" checked>
+        <input type="button" name="color" value="Blue" id="blue" class="color">
+        <input type="button" name="color" value="Pink" id="pink" class="color">
+    </form>
+    <form id="linesize" action="">
+      Select line thickness
+        <input type="radio" name="size" value="1" checked="checked" id="1" class="size" />
+        <lable for="1">1</lable>
+        <input type="radio" name="size" value="2" id="2" class="size" />
+        <lable for="2">2</lable>
+        <input type="radio" name="size" value="3" id="3" class="size" />
+        <lable for="3">3</lable>
+        <input type="radio" name="size" value="4" id="4" class="size" />
+        <lable for="4">4</lable>
+        <input type="radio" name="size" value="5" id="5" class="size" />
+        <lable for="5">5</lable>
+        <input type="radio" name="size" value="6" id="6" class="size" />
+        <lable for="6">6</lable>
+    </form>      
     <form id="toolbar" action="">
         <input type="radio" name="tool" value="pen" checked="checked" id="pen" class="tool" />
         <lable for="pen">Pen</lable>
@@ -32,6 +50,7 @@
             <p>No canvas support</p>
         </canvas>
     </div>
+
     
     <script src="lib/jquery-2.1.3.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="canvas.js" type="text/javascript" charset="utf-8"></script>

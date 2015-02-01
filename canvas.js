@@ -23,6 +23,10 @@ var can = new Canvas();
 
 // Parent class for tools.
 function Shape(x,y) {
+<<<<<<< .mine
+    
+};
+=======
     this.x = x;
     this.y = y;
     this.h = 0;
@@ -32,9 +36,14 @@ function Shape(x,y) {
     this.isAtPoint = function(x,y) { return false; };
     this.move = function(x,y) {};
 };
+>>>>>>> .r21
 
+<<<<<<< .mine
+function Pen(x,y,color,lineThickness) {
+=======
 // Pen class.
 function Pen(x,y) {
+>>>>>>> .r21
     Shape.apply(this,arguments);
     this.xArr = [this.x];
     this.yArr = [this.y];
@@ -50,8 +59,23 @@ function Pen(x,y) {
         }
         canvas.context.stroke();
     };
+    this.color = [color];
+    this.lineThickness = [lineThickness]
 };
 
+<<<<<<< .mine
+Pen.prototype = new Shape();
+
+Pen.prototype.draw = function(canvas) {
+    canvas.context.beginPath();
+    canvas.context.moveTo(this.x[0],this.y[0]);
+    for (var i = 1; i < this.x.length; ++i) {
+        canvas.context.lineTo(this.x[i],this.y[i]);     
+    }
+    canvas.context.lineWidth = this.lineThickness;
+    canvas.context.strokeStyle = this.color[0];
+    canvas.context.stroke();
+=======
 // Rectangle class.
 function Rect(x,y) {
     Shape.apply(this,arguments);
@@ -64,8 +88,48 @@ function Rect(x,y) {
         canvas.context.rect(this.x,this.y,this.w,this.h)
         canvas.context.stroke();
     };
+>>>>>>> .r21
 };
 
+<<<<<<< .mine
+var pen = new Pen(10,15,"blue",3);
+pen.x.push(100);
+pen.y.push(50);
+pen.x.push(400);
+pen.y.push(70);
+pen.draw(can);
+
+var pen2 = new Pen(50,60,"pink",20);
+pen2.x.push(600);
+pen2.y.push(500);
+pen2.x.push(30);
+pen2.y.push(80);
+pen2.draw(can);
+
+console.log(pen.x);
+console.log(pen2.x);
+console.log(pen.color);
+console.log(pen2.color);
+
+var x1 = 100;
+var y1 = 150;
+var x2 = 450;
+var y2 = 50;
+
+for (var i = 0; i < 10; i++) {
+    can.context.beginPath();
+    can.context.moveTo(x1, y1);
+    can.context.lineTo(x2, y2);
+    can.context.lineTo(300,400);
+    can.context.stroke();
+    x1 = x1 + 10;
+    y1 = y1 + 10;
+    x2 = x2 + 10;
+    y2 = y2 + 10;
+}
+
+=======
+>>>>>>> .r21
 // Helper function that gets mouse position on the canvas.
 function getCoordinates(e) {
     var canvas = $('#Canvas')[0];
@@ -88,8 +152,8 @@ var message = "Some text";
 
 function drawScreen() {
   can.context.font = "40px Arial";
-  can.context.fillStyle = "#FF0000";
-  can.context.fillText(message, 100, 150);
+  can.context.fillStyle = "Black";
+  can.context.fillText(message, 150, 200);
 }
 
 function textBoxChanged(e) {
@@ -98,6 +162,15 @@ function textBoxChanged(e) {
       drawScreen();
    }
 
+function color(e){
+    var value = e.value;
+    console.log(e)
+}
+
+function sizeOfLine(e){
+    var value = e.value;
+    console.log(e);
+}
 // Event handler for mouse click on canvas. 
 $('#Canvas').mousedown(function(e) {
     can.isDrawing = true;
@@ -105,6 +178,16 @@ $('#Canvas').mousedown(function(e) {
     can.addLayer(coords.x,coords.y);
 });
 
+<<<<<<< .mine
+//Getting the color of the lines that the user wants
+$(".color").click(function(){
+     color($(this).val());
+});
+//Getting the size of the line the user wants
+$(".size ").click( function(){
+     sizeOfLine($(this).val());
+});
+=======
 // Event handler for mouse move on canvas.
 $('#Canvas').mousemove(function(e) {
     if(can.isDrawing) {
@@ -124,3 +207,4 @@ $('#Canvas').mouseup(function(e) {
 //Event for textbox 
 var formElement = document.getElementById("textBox");
 formElement.addEventListener('keyup', textBoxChanged, false);
+>>>>>>> .r21
