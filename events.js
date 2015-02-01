@@ -59,6 +59,12 @@ $(".size ").click(function(){
     can.lineWidth = $(this).val();
 });
 
+//Getting the font
+$(".font ").click( function(){
+     can.fontType = $(this).attr('id');
+     console.log(can.fontType);
+});
+
 // Event handler for mouse click on canvas. 
 $('#Canvas').mousedown(function(e) {
     can.isDrawing = true;
