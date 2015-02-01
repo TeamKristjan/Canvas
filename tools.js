@@ -11,8 +11,6 @@ function Shape(x,y,width,color) {
         this.h = y - this.y;
     };
     this.draw = function(canvas) {};
-    this.isAtPoint = function(x,y) { return false; };
-    this.move = function(x,y) {};
 };
 
 // Pen class.
@@ -33,22 +31,6 @@ function Pen(x,y,width,color) {
         canvas.context.lineWidth = this.lineWidth;
         canvas.context.strokeStyle = this.lineColor;
         canvas.context.stroke();
-    };
-    this.isAtPoint = function(x,y) {
-        for (var i = 0; i < this.xArr && i < this.yArr; ++i) {
-            if (this.xArr[i] === x && this.yArr[i] === y) {
-                return true;
-            }
-        }
-        return false;
-    };
-    this.move = function(x, y) {
-        var offsetX = x - this.x;
-        var offsetY = y - this.y;
-        for (var i = 0; i < this.xArr && i < this.yArr; ++i) {
-            this.xArr[i] = this.xArr[i] + offsetX;
-            this.yArr[i] = this.yArr[i] + offsetY;
-        }
     };
 };
 

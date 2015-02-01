@@ -43,8 +43,6 @@ function Canvas() {
             item = new Text(x,y,this.lineWidth,this.lineColor,this.message,this.fontType,this.fontSize);
         } else if (this.tool === "erase") {
             item = new Erase(x,y,0,0);
-        } else if (this.tool === "move") {
-            this.move(x,y);
         } else {
             console.log("No tool selected.");
         }
@@ -66,15 +64,6 @@ function Canvas() {
         if (this.erased.length > 0) {
             this.shapes.push(this.erased.pop());
             this.draw();
-        }
-    };
-    
-    this.move = function(x,y) {
-        for (var i = 0; i < this.shapes.length; ++i) {
-            if (this.shapes[i].isAtPoint(x,y)) {
-                
-                this.shapes[i].move(x,y);
-            }
         }
     };
 };
