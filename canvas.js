@@ -92,29 +92,6 @@ function textBoxChanged(e) {
       drawScreen();
    }
 
-// Text tool class
-//     var Text = Shape.extend({
-//         constructor: function(x,y) {
-//             this.x.push(x);
-//             this.y.push(y);
-//         },
-//         x: [],
-//         y: [],
-//         draw: function() {
-//             can.context.beginPath();
-//             can.context.moveTo(this.x[0],this.y[0]);
-//             for (var i = 0; i < this.x.length && i < this.y.length; ++i) {
-                
-//                 can.context.lineTo(this.x[i],this.y[i]);
-//             }
-//             can.context.stroke();
-//         },
-//         update: function(x,y) {
-//             this.x.push(x);
-//             this.y.push(y);
-//         }
-//     });
-
 // Event handler for mouse click on canvas. 
 $('#Canvas').mousedown(function(e) {
     console.log(getCoordinates(e));
