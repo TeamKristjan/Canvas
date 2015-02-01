@@ -1,166 +1,49 @@
-$( document ).ready(function() {
-    var Canvas = Base.extend({
-        constructor: function() {
-            this.canvas = document.getElementById('myCanvas');
-            this.context = this.canvas.getContext('2d');
-        },
-        canvas: undefined,
-        context: undefined,
-        drawAll: function(layer) {
-            this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            this.context.drawImage(layer, 0, 0);
-        }
-    });
-    
-    var Layer = Canvas.extend({
-        constructor: function() {
-            this.canvas = document.getElementById('tempCanvas');
-            this.context = this.canvas.getContext('2d');
-            this.tool = "pen";
-        },
-        tool: undefined,
-        shapes: [],
-        isDrawing: false,
-        drawAll: function() {
-            //for (var i = 0; i < this.shapes.length; ++i) {
-            //    this.shapes[i].draw();
-            //}
-            this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            this.shapes[1].draw();
-        },
-        create: function(x,y) {
-            this.isDrawing = true;
-            if (this.tool === "pen") {
-                var pen = new Pen(x,y);
-                this.shapes.push(pen);
-            }
-            this.drawAll();
-            console.log(this.shapes);
-        },
-        update: function(x,y) {
-            if (this.isDrawing) {
-                if (this.tool === "pen") {
-                    var i = this.shapes.length - 1;
-                    this.shapes[i].update(x,y);
-                }
-                this.drawAll();
-            }
-        },
-        stopDraw: function(x,y) {
-            lay.drawAll(this.canvas);
-            this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            this.isDrawing = false;
-        }
-    });
-    
-    // Parent class for shape tools
-    var Shape = Base.extend({
-        //TODO: implement
-        constructor: function(x,y) {
-            this.x = x;
-            this.y = y;
-        },
-        x: 0,
-        y: 0,
-        draw: function() {
-            // Draws 
-        },
-        isAtPoint: function(x,y) {
-            // Returns true/false
-        }
-    });
-    
-    // Pen tool class
-    var Pen = Shape.extend({
-        constructor: function(x,y) {
-            this.x.push(x);
-            this.y.push(y);
-        },
-        x: [],
-        y: [],
-        draw: function() {
-            lay.context.beginPath();
-            lay.context.moveTo(this.x[0],this.y[0]);
-            for (var i = 0; i < this.x.length && i < this.y.length; ++i) {
-                
-                lay.context.lineTo(this.x[i],this.y[i]);
-            }
-            lay.context.stroke();
-        },
-        update: function(x,y) {
-            this.x.push(x);
-            this.y.push(y);
-        }
-    });
-    
-    // Rectangle tool class
-    var Rect = Shape.extend({
-        //TODO: implement
-    });
-    
-    // Line tool class
-    var Line = Shape.extend({
-        //TODO: implement
-    });
-    
-    // Circle tool class
-    var Circle = Shape.extend({
-       //TODO: implement 
-    });
+var Canvas = Base.extend({
+    constructor: function() {
+        this.canvas = $('#Canvas')[0];
+        this.context = this.canvas.getContext('2d');
+    },
+    canvas: undefined,
+    context: undefined
+});
 
+var can = new Canvas();
 
-    // var message = "your text";
+var x1 = 100;
+var y1 = 150;
+var x2 = 450;
+var y2 = 50;
 
-    var TextBox = Shape.extend({
+for (var i = 0; i < 10; i++) {
+    can.context.beginPath();
+    can.context.moveTo(x1, y1);
+    can.context.lineTo(x2, y2);
+    can.context.stroke();
+    x1 = x1 + 10;
+    y1 = y1 + 10;
+    x2 = x2 + 10;
+    y2 = y2 + 10;
+}
 
-        // can.fillStyle = "#FF0000";
-        // can.fillText ("Hello World", 100, 80);
-    });
-    
-    // Gets mouse coordinates on canvas
-    function getCoordinates(e) {
-        var coord = {x: 0, y: 0};
-        if (e.layerX || e.layerX == 0) { // Firefox
-          coord.x = e.layerX;
-          coord.y = e.layerY;
-        } else if (e.offsetX || e.offsetX == 0) { // Chrome/Opera/IE/Safari
-          coord.x = e.offsetX;
-          coord.y = e.offsetY;
-        }
-        return coord;
-    };
-    
-    
-    // Initializes the canvas
-    var can = new Canvas();
-    var lay = new Layer();
-    
-    ///////
-    // Event handlers
-    ///////
-    
-    // Updates to selected tool
-    $("input:radio[name=tool]").click(function() {
-        lay.tool = $(this).val();
-    });
-    
-    // Draws the current shape
-    $("#myCanvas").mousedown(function(e) {
-        // TODO: implement
-        var coord = getCoordinates(e);
-        lay.create(coord.x,coord.y);
-    });
-    
-    $("#myCanvas").mousemove(function(e) {
-        // TODO: implement
-        var coord = getCoordinates(e);
-        lay.update(coord.x,coord.y);
-    });
-    
-    $("#myCanvas").mouseup(function(e) {
-        // TODO: implement
-        var coord = getCoordinates(e);
-        lay.stopDraw(coord.x,coord.y);
-    });
+// Helper function that gets mouse position on the canvas.
+function getCoordinates(e) {
+    var canvas = $('#Canvas')[0];
+    var coord = {x: 0, y: 0};
+    if (e.x !== undefined && e.y !== undefined) {
+        coord.x = e.x;
+        coord.y = e.y;
+    } else {
+        coord.x = e.clientX + document.body.scrollLeft +
+        document.documentElement.scrollLeft;
+        coord.y = e.clientY + document.body.scrollTop +
+        document.documentElement.scrollTop;
+    }
+    coord.x -= canvas.offsetLeft;
+    coord.y -= canvas.offsetTop;
+    return coord;
+};
 
+// Event handler for mouse click on canvas. 
+$('#Canvas').mousedown(function(e) {
+    console.log(getCoordinates(e));
 });
