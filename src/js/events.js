@@ -22,7 +22,7 @@ function getCoordinates(e) {
     coord.x -= canvas.offsetLeft;
     coord.y -= canvas.offsetTop;
     return coord;
-};
+}
 
 
 // Updates to selected tool

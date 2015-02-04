@@ -11,7 +11,7 @@ function Shape(x,y,width,color) {
         this.h = y - this.y;
     };
     this.draw = function(canvas) {};
-};
+}
 
 // Pen class.
 function Pen(x,y,width,color) {
@@ -32,7 +32,7 @@ function Pen(x,y,width,color) {
         canvas.context.strokeStyle = this.lineColor;
         canvas.context.stroke();
     };
-};
+}
 
 // Rectangle class.
 function Rect(x,y,width,color) {
@@ -44,7 +44,7 @@ function Rect(x,y,width,color) {
         canvas.context.strokeStyle = this.lineColor;
         canvas.context.stroke();
     };
-};
+}
 
 // Circle class.
 function Circle(x,y,width,color) {
@@ -60,7 +60,7 @@ function Circle(x,y,width,color) {
         canvas.context.strokeStyle = this.lineColor;
         canvas.context.stroke();
     };
-};
+}
 
 // Line class.
 function Line(x,y,width,color) {
@@ -77,7 +77,7 @@ function Line(x,y,width,color) {
         canvas.context.strokeStyle = this.lineColor;
         canvas.context.stroke();
     };
-};
+}
 
 // Erase class.
 function Erase(x,y) {
@@ -89,8 +89,8 @@ function Erase(x,y) {
         canvas.context.fill();
         canvas.context.strokeStyle = 'white';
         canvas.context.stroke();
-    }
-};
+    };
+}
 
 // Text tool
 function Text(x,y,width,color,message,font,fontsize){
@@ -101,4 +101,4 @@ function Text(x,y,width,color,message,font,fontsize){
         can.context.fillStyle = this.lineColor;
         can.context.fillText(message, this.x, this.y);
     };
-};
+}

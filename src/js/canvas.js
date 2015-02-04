@@ -66,4 +66,4 @@ function Canvas() {
             this.draw();
         }
     };
-};
+}
