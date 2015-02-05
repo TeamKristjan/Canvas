@@ -1,0 +1,24 @@
+{
+  "name": "Canvas",
+  "version": "0.9.0",
+  "homepage": "https://github.com/TeamKristjan/Canvas",
+  "authors": [
+    "Kristján Ólafur Ólafsson <kristjanola13@ru.is>",
+    "Kristján Ingi Einarsson <kristjane09@ru.is>"
+  ],
+  "description": "Drawing web app using the canvas HTML5 element.",
+  "keywords": [
+    "Canvas",
+    "JavaScript",
+    "OOP"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "node_modules",
+    "bower_components"
+  ],
+  "devDependencies": {
+    "jquery": "~2.1.3"
+  }
+}
