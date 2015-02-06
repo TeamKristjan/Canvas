@@ -16,4 +16,4 @@ To test and build project:
 
     gulp
 
-The build files are located in the build directory.
+The build files are located in the dist directory.
