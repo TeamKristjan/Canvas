@@ -24,4 +24,22 @@ gulp.task('html', function() {
         .pipe(gulp.dest('build/'));
 });
 
+gulp.task('bump', function() {
+    gulp.src('./*.json')
+        .pipe(plugins.bump())
+        .pipe(gulp.dest('./'));
+});
+
+gulp.task('bump:minor', function() {
+    gulp.src('./*.json')
+        .pipe(plugins.bump({type: 'minor'}))
+        .pipe(gulp.dest('./'));
+});
+
+gulp.task('bump:major', function() {
+    gulp.src('./*.json')
+        .pipe(plugins.bump({type: 'major'}))
+        .pipe(gulp.dest('./'));
+});
+
 gulp.task('default', ['js', 'css', 'html']);
