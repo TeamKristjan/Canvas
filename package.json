@@ -2,6 +2,7 @@
   "name": "Canvas",
   "version": "0.9.1",
   "devDependencies": {
+    "browser-sync": "^2.0.0-rc8",
     "gulp": "^3.8.10",
     "gulp-bump": "^0.1.13",
     "gulp-concat": "^2.4.3",
